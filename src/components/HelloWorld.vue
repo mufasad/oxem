@@ -1,12 +1,19 @@
 <template>
   <div class="container">
     <h1>Рассчитайте стоимость автомобиля в лизинг</h1>
+    <form action="">
+      <oxem-button>Оставить заявку</oxem-button>
+    </form>
   </div>
 </template>
 
 <script>
+import OxemButton from "@/components/ui/OxemButton";
 export default {
   name: "HelloWorld",
+  components: {
+    OxemButton,
+  },
 };
 </script>
 
