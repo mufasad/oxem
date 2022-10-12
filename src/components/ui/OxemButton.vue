@@ -1,7 +1,12 @@
 <template>
-  <button type="button" class="button" :class="type" :disabled="disabled">
+  <button
+    type="button"
+    class="button"
+    :class="{ load: load }"
+    :disabled="disabled"
+  >
     <transition name="fade">
-      <span class="button__load" v-if="type === 'load'"></span>
+      <span class="button__load" v-if="load"></span>
     </transition>
     <slot></slot>
   </button>
@@ -11,7 +16,7 @@
 export default {
   name: "OxenButton",
   props: {
-    type: String,
+    load: Boolean,
     disabled: Boolean,
   },
 };

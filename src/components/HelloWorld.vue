@@ -9,6 +9,7 @@
         :max="credit.max"
         :step="credit.step"
         :key="currentPercent"
+        :disable="requestTime"
         @modification="updatePayment"
         ><span class="rouble">₽</span></oxem-range
       >
@@ -19,6 +20,7 @@
         :max="payment.max"
         :step="payment.percent.step"
         :key="credit.value"
+        :disable="requestTime"
         @modification="updatePercent"
         ><span class="rouble percent">{{ currentPercent }}%</span></oxem-range
       >
@@ -28,20 +30,23 @@
         :min="month.min"
         :max="month.max"
         :step="month.step"
+        :disable="requestTime"
         @modification="updateMonth"
         ><span class="rouble">мес.</span></oxem-range
       >
       <div class="total">
         <div class="total__item">
-          <p class="total__name"></p>
+          <p class="total__name">Сумма договора лизинга</p>
           <p class="total__value">{{ total.sum }}₽</p>
         </div>
         <div class="total__item">
-          <p class="total__name"></p>
+          <p class="total__name">Ежемесячный платеж от</p>
           <p class="total__value">{{ total.pay }}₽</p>
         </div>
       </div>
-      <oxem-button>Оставить заявку</oxem-button>
+      <oxem-button :load="requestTime" :disabled="requestTime" @click="submit"
+        >Оставить заявку</oxem-button
+      >
     </form>
   </div>
 </template>
@@ -87,6 +92,15 @@ export default {
         sum: 0,
         pay: 0,
       },
+      send: {
+        car_coast: 0,
+        initial_payment: 0,
+        initial_payment_percent: 0,
+        lease_term: 0,
+        total_sum: 0,
+        monthly_payment_from: 0,
+      },
+      requestTime: false,
     };
   },
   created() {
@@ -115,20 +129,38 @@ export default {
       this.payment.max = this.credit.value * (this.payment.percent.max / 100);
       this.payment.percent.step = this.credit.min * (1 / 100);
     },
+
     updatePayment(data) {
       this.credit.value = Number(data);
       this.setPercent();
       this.payment.value = data * (this.currentPercent / 100);
       this.setTotal();
     },
+
     updatePercent(data) {
       this.payment.value = Number(data);
       this.currentPercent = Math.round((data / this.credit.value) * 100);
       this.setTotal();
     },
+
     updateMonth(data) {
       this.month.value = Number(data);
       this.setTotal();
+    },
+
+    submit() {
+      this.requestTime = true;
+      this.send.car_coast = this.credit.value;
+      this.send.initial_payment = this.payment.value;
+      this.send.initial_payment_percent = this.currentPercent;
+      this.send.lease_term = this.month.value;
+      this.send.total_sum = Number(this.total.sum.replace(/\s/g, ""));
+      this.send.monthly_payment_from = Number(
+        this.total.pay.replace(/\s/g, "")
+      );
+      setTimeout(() => {
+        this.requestTime = false;
+      }, 2000);
     },
   },
 };
@@ -146,6 +178,7 @@ export default {
   padding: 44px 20px;
 
   .rouble {
+    user-select: none;
     font-style: normal;
     font-weight: 900;
     font-size: 22px;

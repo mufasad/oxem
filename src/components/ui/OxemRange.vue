@@ -1,11 +1,12 @@
 <template>
-  <div class="range">
+  <div class="range" :class="{ disable: disable }">
     <p class="title">{{ title }}</p>
     <div class="slider">
       <div class="slider__input-wrapper">
         <input
           class="slider__input"
           type="tel"
+          :disabled="disable"
           v-model="inputValue"
           @blur="updateValue"
           @input="updateInput"
@@ -19,6 +20,7 @@
         :min="min"
         :max="max"
         :step="step"
+        :disabled="disable"
         v-model="rangeValue"
         @input="updateProgress"
         :style="{
@@ -52,6 +54,10 @@ export default {
     step: {
       type: Number,
       default: 1,
+    },
+    disable: {
+      type: Boolean,
+      default: false,
     },
   },
   data() {
@@ -120,6 +126,11 @@ export default {
   display: flex;
   flex-direction: column;
   align-items: flex-start;
+  transition: opacity 0.3s ease;
+
+  &.disable {
+    opacity: 0.5;
+  }
 }
 
 .title {
