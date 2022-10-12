@@ -56,11 +56,15 @@ export default {
   },
   data() {
     return {
-      inputValue: this.formatNumbers(this.min),
+      inputValue: this.formatNumbers(this.value),
       rangeValue: this.min,
       onChange: this.min,
       progress: 0,
     };
+  },
+  created() {
+    this.rangeValue = this.value;
+    this.setProgress();
   },
   methods: {
     formatNumbers(num) {
@@ -68,9 +72,14 @@ export default {
     },
 
     updateProgress() {
+      this.setProgress();
+      this.inputValue = this.formatNumbers(this.rangeValue);
+      this.$emit("modification", this.rangeValue);
+    },
+
+    setProgress() {
       this.progress =
         ((this.rangeValue - this.min) / (this.max - this.min)) * 100;
-      this.inputValue = this.formatNumbers(this.rangeValue);
     },
 
     updateValue() {
@@ -151,7 +160,7 @@ export default {
     align-items: center;
     justify-content: space-between;
     margin-bottom: 11px;
-    overflow: hidden;
+    //overflow: hidden;
 
     .slider__input {
       display: inline-block;
@@ -174,22 +183,13 @@ export default {
         margin: 0;
       }
     }
-
-    //.slider__label {
-    //  font-style: normal;
-    //  font-weight: 900;
-    //  font-size: 30px;
-    //  //line-height: 36px;
-    //  overflow: hidden;
-    //  white-space: nowrap;
-    //  text-overflow: ellipsis;
-    //}
   }
 
   .slider__range {
     -webkit-appearance: none;
     -webkit-transition: 0.2s;
     width: 100%;
+    z-index: 2;
 
     &:focus {
       outline: none;
