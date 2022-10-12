@@ -2,16 +2,25 @@
   <div class="container">
     <h1>Рассчитайте стоимость автомобиля в лизинг</h1>
     <form action="">
+      <oxem-range
+        title="Стоимость автомобиля"
+        value="1000000"
+        min="1000000"
+        max="6000000"
+        step="50000"
+      ></oxem-range>
       <oxem-button>Оставить заявку</oxem-button>
     </form>
   </div>
 </template>
 
 <script>
+import OxemRange from "@/components/ui/OxemRange";
 import OxemButton from "@/components/ui/OxemButton";
 export default {
   name: "HelloWorld",
   components: {
+    OxemRange,
     OxemButton,
   },
 };
