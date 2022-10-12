@@ -1,0 +1,21 @@
+@import "variables";
+@import "mixins";
+@import "fonts";
+
+
+%font-family{font-family: "Nekst", sans-serif}
+
+#app {
+  @extend %font-family;
+}
+html{overflow-x:hidden}
+
+
+body{
+  margin:0;
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-align: center;
+}
+

@@ -1,0 +1,23 @@
+@import "variables";
+
+@mixin font-face($font-family, $file-path, $weight: normal, $style: normal, $asset-pipeline: false ) {
+  @font-face {
+    font-family: $font-family;
+    font-weight: $weight;
+    font-style: $style;
+    src: url('#{$file-path}.eot');
+    src: url('#{$file-path}.eot?#iefix') format('embedded-opentype'), url('#{$file-path}.woff') format('woff'), url('#{$file-path}.woff2') format('woff2'), url('#{$file-path}.ttf') format('truetype');
+
+  }
+}
+
+
+@mixin xs-up { @media (min-width: #{$xs-up}) {@content;} };
+@mixin sm-up { @media (min-width: #{$sm-up}) {@content;} };
+@mixin md-up { @media (min-width: #{$md-up}) {@content;} };
+@mixin lg-up { @media (min-width: #{$lg-up}) {@content;} };
+
+@mixin xs-down { @media (max-width: #{$xs-down}) {@content;} };
+@mixin sm-down { @media (max-width: #{$sm-down}) {@content;} };
+@mixin md-down { @media (max-width: #{$md-down}) {@content;} };
+@mixin lg-down { @media (max-width: #{$lg-down}) {@content;} };
